@@ -1,10 +1,14 @@
-from django.urls import path
-from .views import *
+from django.contrib import admin
+from django.urls import path, include 
+from rest_framework_simplejwt.views import(
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
-    path('', AllRoomsListView.as_view(), name='all-room-list'),
-    path('rooms/add/', RoomListCreateView.as_view(), name='room-list-create'),
-    path('rooms/all/', AllRoomsListView.as_view(), name='all-room-list'), 
-    path('rooms/update/<int:pk>/', RoomUpdateView.as_view(), name='room-update'),  
-    path('rooms/delete/<int:pk>/', RoomDeleteView.as_view(), name='room-delete'), 
+    path('admin/', admin.site.urls),
+    path('api/', include('myapp.urls')),
+    path('', include('myapp.urls')),
+    path( 'api/token/',TokenObtainPairView.as_view(), name= 'token_obtain_pair'),
+    path( 'api/token/refresh/',TokenRefreshView.as_view(), name= 'token_refresh'),
 ]
